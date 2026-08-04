@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Gupta Brother Vegetable Shop & Fruits - ताज़ी सब्ज़ियां और फल जयपुर पर">
+<title>Gupta Brother Vegetable Shop & Fruits</title>
+<style>
+:root {
+  --green: #168a45;
+  --dark: #103b27;
+  --light: #f5fbf7;
+  --orange: #f59e0b;
+  --red: #dc2626;
+  --text: #203027;
+  --muted: #68766e;
+  --white: #fff;
+  --shadow: 0 12px 35px rgba(16, 59, 39, .10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: Arial, Helvetica, sans-serif; color: var(--text); background: #fff; line-height: 1.6; }
+a { text-decoration: none; color: inherit; }
+.container { width: min(1120px, 92%); margin: auto; }
+
+/* Header & Nav */
+header { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, .96); backdrop-filter: blur(10px); box-shadow: 0 2px 16px rgba(0, 0, 0, .05); }
+.nav { height: 75px; display: flex; align-items: center; justify-content: space-between; }
+.logo-container { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: var(--dark); }
+.brother-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--green); }
+.brother-img-clickable { cursor: pointer; user-select: none; }
+.logo-text { font-size: 17px; font-weight: 800; line-height: 1.2; text-align: center; }
+
+nav { display: flex; gap: 18px; align-items: center; }
+nav a { font-weight: 700; font-size: 14px; color: #405048; }
+nav a:hover { color: var(--green); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 12px; padding: 12px 18px; font-weight: 800; cursor: pointer; }
+.btn-green { background: var(--green); color: white; }
+.btn-orange { background: var(--orange); color: #17220f; }
+.btn-red { background: var(--red); color: white; }
+.btn-outline { border: 1px solid #d7e2db; background: #fff; color: var(--green); }
+
+/* Hero */
+.hero { background: linear-gradient(120deg, #effaf2, #fff8e9); padding: 60px 0; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+.badge { display: inline-block; background: #dff5e7; color: var(--green); padding: 7px 12px; border-radius: 99px; font-size: 13px; font-weight: 800; margin-bottom: 14px; }
+.hero h1 { font-size: clamp(32px, 4.5vw, 55px); line-height: 1.15; color: var(--dark); margin-bottom: 18px; }
+.hero h1 span { color: var(--green); }
+.hero p { font-size: 16px; color: var(--muted); max-width: 560px; margin-bottom: 25px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-img { height: 380px; border-radius: 30px; background: url('https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1000&q=85') center/cover; box-shadow: var(--shadow); }
+
+/* Sections */
+section { padding: 60px 0; }
+.section-head { text-align: center; margin-bottom: 35px; }
+.section-head h2 { font-size: 32px; color: var(--dark); }
+.section-head p { color: var(--muted); margin-top: 5px; }
+
+.categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.cat { padding: 20px; background: var(--light); border-radius: 18px; text-align: center; font-weight: 800; cursor: pointer; border: 1px solid #e5f0e9; }
+.cat b { display: block; font-size: 32px; margin-bottom: 5px; }
+
+/* Products Grid */
+.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.card { background: #fff; border: 1px solid #e6eee9; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 22px rgba(18, 60, 33, .06); transition: .2s; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.product-img { height: 160px; background-size: cover; background-position: center; }
+.card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.tag { font-size: 11px; color: var(--green); font-weight: 800; }
+.card h3 { margin: 4px 0; font-size: 18px; }
+.price { font-size: 18px; font-weight: 900; color: var(--dark); margin: 6px 0; }
+.unit { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* Quantity Selector Dropdown */
+.qty-selector { width: 100%; padding: 8px 10px; margin: 8px 0 12px; border: 1px solid #cce0d4; border-radius: 8px; font-weight: 700; color: var(--dark); background: #fdfdfd; cursor: pointer; outline: none; }
+.add { width: 100%; }
+
+/* Out of Stock styling */
+.card.out-of-stock { opacity: 0.65; }
+.card.out-of-stock .product-img { filter: grayscale(100%); }
+.stock-badge { position: absolute; top: 12px; right: 12px; background: rgba(220, 38, 38, 0.9); color: white; padding: 4px 10px; font-size: 11px; font-weight: 800; border-radius: 20px; }
+
+.offer { background: linear-gradient(120deg, var(--dark), #1d6b42); color: #fff; border-radius: 28px; padding: 35px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.offer h2 { font-size: 30px; }
+.offer p { color: #d9eee1; }
+.offer strong { color: #ffd166; }
+
+.gallery { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-auto-rows: 180px; gap: 14px; }
+.gallery div { border-radius: 18px; background-size: cover; background-position: center; }
+.gallery .big { grid-row: span 2; }
+
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.about-img { height: 350px; border-radius: 25px; background: url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85') center/cover; }
+.checks { margin-top: 20px; display: grid; gap: 10px; }
+.checks div { font-weight: 700; }
+
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.review { padding: 22px; background: #f8fbf9; border-radius: 18px; }
+.stars { color: #f59e0b; letter-spacing: 2px; }
+.review p { margin: 10px 0; color: #58665e; }
+
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+.contact-box { padding: 28px; border: 1px solid #e5eee8; border-radius: 22px; background: #fff; }
+.contact-row { padding: 13px 0; border-bottom: 1px solid #edf2ef; }
+.contact-row:last-child { border: 0; }
+.contact-row b { display: block; color: var(--dark); }
+
+/* Admin Section Styles */
+.admin-section { background: #111827; color: #fff; padding: 50px 0; border-radius: 30px; margin: 40px auto; }
+.admin-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; margin-top: 20px; }
+.admin-card { background: #1f2937; padding: 20px; border-radius: 18px; border: 1px solid #374151; }
+.admin-card h3 { color: #10b981; margin-bottom: 15px; }
+.admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+.admin-table th, .admin-table td { padding: 10px; border-bottom: 1px solid #374151; }
+.admin-table input[type="number"] { width: 70px; padding: 5px; border-radius: 5px; border: 1px solid #4b5563; background: #111827; color: #fff; }
+.admin-input { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #4b5563; background: #111827; color: #fff; }
+
+footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px; }
+.footer-grid { display: flex; justify-content: space-between; gap: 20px; }
+.float-wa { position: fixed; right: 18px; bottom: 18px; z-index: 30; background: #25d366; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 27px; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); }
+
+/* Cart & Modals */
+.cart { position: fixed; right: 0; top: 0; height: 100%; width: min(410px, 100%); background: #fff; z-index: 50; box-shadow: -10px 0 35px rgba(0, 0, 0, .15); transform: translateX(100%); transition: .3s; display: flex; flex-direction: column; }
+.cart.open { transform: none; }
+.cart-head { padding: 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
+.cart-items { padding: 18px; overflow: auto; flex: 1; }
+.cart-item { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
+.qty { display: flex; gap: 7px; align-items: center; }
+.qty button { border: 1px solid #ddd; background: white; border-radius: 7px; width: 28px; height: 28px; cursor: pointer; }
+.cart-foot { padding: 18px; border-top: 1px solid #eee; }
+.total { display: flex; justify-content: space-between; font-size: 21px; font-weight: 900; margin-bottom: 14px; }
+
+.modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: 60; display: none; align-items: center; justify-content: center; padding: 18px; }
+.modal.show { display: flex; }
+.modal-box { background: white; width: min(500px, 100%); max-height: 90vh; overflow: auto; border-radius: 22px; padding: 25px; position: relative; }
+.close { float: right; border: 0; background: #eee; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; }
+.field { margin: 12px 0; }
+.field label { font-size: 13px; font-weight: 800; display: block; margin-bottom: 5px; }
+.field input, .field textarea { width: 100%; padding: 12px; border: 1px solid #d8e3dc; border-radius: 10px; font: inherit; }
+.field textarea { min-height: 70px; resize: vertical; }
+
+.warning-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; border: 1px solid #ffeeba; font-size: 13px; margin-bottom: 10px; display: none; }
+
+.thankyou-box { text-align: center; padding: 20px 10px; }
+.thankyou-box h2 { font-size: 28px; color: var(--green); margin-bottom: 10px; }
+.thankyou-box p { color: var(--muted); margin-bottom: 20px; }
+.thankyou-icon { font-size: 60px; margin-bottom: 10px; display: block; }
+
+@media(max-width:850px){
+  nav { display: none; }
+  .hero-grid, .about-grid, .contact-grid, .admin-grid { grid-template-columns: 1fr; }
+  .hero-img { height: 280px; }
+  .products { grid-template-columns: repeat(2, 1fr); }
+  .categories { grid-template-columns: repeat(2, 1fr); }
+  .reviews { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 140px; }
+  .gallery .big { grid-column: span 2; grid-row: span 1; }
+  .offer { flex-direction: column; align-items: flex-start; }
+  .footer-grid { flex-direction: column; }
+}
+@media(max-width:480px){
+  .logo-text { font-size: 14px; }
+  .brother-img { width: 30px; height: 30px; }
+  .products { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .product-img { height: 120px; }
+  .card-body { padding: 10px; }
+  .card h3 { font-size: 15px; }
+  .price { font-size: 15px; }
+  .hero { padding: 35px 0; }
+  .hero h1 { font-size: 32px; }
+  .btn { padding: 10px 14px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo-container">
+      <img src="bhai1.jpeg" 
+           alt="Brother 1" 
+           class="brother-img brother-img-clickable" 
+           onclick="handleAdminClick()" 
+           title="Tap 3 times to open Admin">
+      <a href="#" class="logo-text">Gupta Brother<br><span style="color:var(--green)">Vegetable & Fruits</span></a>
+      <img src="bhai2.jpeg" alt="Brother 2" class="brother-img">
+    </div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#offers">Offers</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="btn btn-green" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">🌱 Fresh • Clean • Quality</span>
+        <h1>गुप्ता ब्रदर्स <span>ताज़ी सब्ज़ियां</span> और फल घर तक</h1>
+        <p>पूरे जयपुर (Jaipur) की सबसे भरोसेमंद दुकान। ताज़ा माल, सबसे कम दाम और तेज़ होम डिलीवरी।</p>
+        <div class="hero-actions">
+          <a class="btn btn-green" href="#products">🛍️ Shopping शुरू करें</a>
+          <a class="btn btn-outline" href="https://wa.me/917850872572" target="_blank">💬 WhatsApp करें</a>
+        </div>
+      </div>
+      <div class="hero-img"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>हमारी Categories</h2>
+        <p>अपनी पसंद की category चुनें</p>
+      </div>
+      <div class="categories">
+        <div class="cat" onclick="filterProducts('सब्ज़ियां')"><b>🥦</b>सब्ज़ियां</div>
+        <div class="cat" onclick="filterProducts('फल')"><b>🍎</b>फल</div>
+        <div class="cat" onclick="filterProducts('पत्तेदार')"><b>🥬</b>पत्तेदार</div>
+        <div class="cat" onclick="filterProducts('सब')"><b>🛒</b>सभी Products</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="products" style="background:#f8fbf9">
+    <div class="container">
+      <div class="section-head">
+        <h2>Fresh Products & Prices</h2>
+        <p>मात्रा (250g, 500g, 1kg) चुनें और अपनी पसंद से ऑर्डर करें</p>
+      </div>
+      <div class="products" id="productGrid"></div>
+    </div>
+  </section>
+
+  <section id="offers">
+    <div class="container">
+      <div class="offer">
+        <div>
+          <h2>🎉 Jaipur Special Offer</h2>
+          <p>₹399 या उससे अधिक के order पर <strong>FREE HOME DELIVERY</strong></p>
+        </div>
+        <a class="btn btn-orange" href="#products">Offer का फायदा लें</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <h2>हमारी Gallery</h2>
+        <p>ताज़गी जिसे आप देख सकते हैं</p>
+      </div>
+      <div class="gallery">
+        <div class="big" style="background-image:url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85')"></div>
+        <div style="background-image:url('https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&fit=crop&w=700&q=85')"></div>
+        <div style="background-image:url('https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=700&q=85')"></div>
+        <div style="background-image:url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=700&q=85')"></div>
+        <div style="background-image:url('https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=700&q=85')"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" style="background:#f8fbf9">
+    <div class="container about-grid">
+      <div class="about-img"></div>
+      <div>
+        <span class="badge">❤️ Gupta Brother's Promise</span>
+        <h2 style="font-size:32px;color:var(--dark)">हमारा वादा - शुद्धता और ताज़गी</h2>
+        <p style="color:var(--muted);margin-top:10px">गुप्ता ब्रदर्स शॉप पर हम सीधे किसानों और मंडी से ताज़ी सब्ज़ियां व फल आपके घर तक पहुँचाते हैं।</p>
+        <div class="checks">
+          <div>✅ डिलीवरी केवल Jaipur क्षेत्र में</div>
+          <div>✅ रोज़ाना सुबह Fresh Stock</div>
+          <div>✅ साफ-सुथरी Safe Delivery</div>
+          <div>✅ WhatsApp Order सुविधा (7850872572)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Customer Reviews</h2>
+        <p>जयपुर के हमारे ग्राहकों की राय</p>
+      </div>
+      <div class="reviews">
+        <div class="review"><div class="stars">★★★★★</div><p>“सब्ज़ियां बहुत ताज़ी होती हैं। जयपुर में सबसे बेस्ट सर्विस है।”</p><b>— Ramesh Sharma</b></div>
+        <div class="review"><div class="stars">★★★★★</div><p>“WhatsApp पर लिस्ट भेजो और तुरंत ऑर्डर घर आ जाता है। थैंक यू गुप्ता ब्रदर्स!”</p><b>— Anita Verma</b></div>
+        <div class="review"><div class="stars">★★★★★</div><p>“फलों की क्वालिटी काफी अच्छी रहती है और रेट्स भी सही हैं।”</p><b>— Vikas Saini</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="background:#f8fbf9">
+    <div class="container">
+      <div class="section-head">
+        <h2>Contact & Location</h2>
+        <p>संपर्क करें और आसानी से ऑर्डर दें</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-box">
+          <div class="contact-row"><b>📱 WhatsApp / Phone</b><a href="tel:+917850872572">7850872572</a></div>
+          <div class="contact-row"><b>🕘 Timing</b>सुबह 7:00 बजे से रात 9:00 बजे तक</div>
+          <div class="contact-row"><b>📍 Shop Address</b>Gupta Brother Vegetable & Fruits, Jaipur</div>
+          <div class="contact-row"><b>🚚 Delivery Area</b>केवल Jaipur (जयपुर)</div>
+        </div>
+        <div class="contact-box">
+          <h3 style="color:var(--dark);margin-bottom:10px">ऑर्डर कैसे करें?</h3>
+          <p style="color:var(--muted)">1. प्रोडक्ट्स Cart में ऐड करें<br>2. नाम, मोबाइल और Jaipur एड्रेस भरें<br>3. Send Order पर क्लिक करके WhatsApp भेजें</p>
+          <br>
+          <a class="btn btn-green" href="https://wa.me/917850872572" target="_blank">💬 Direct WhatsApp Chat</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP ADMIN PANEL SECTION -->
+  <section id="admin" class="container" style="display: none;">
+    <div class="admin-section">
+      <div class="container">
+        <h2 style="color:#10b981; text-align:center;">⚙️ Shop Management Panel</h2>
+        <p style="text-align:center; color:#9ca3af;">यहाँ से आप नया Item जोड़ सकते हैं, 1kg का Rate बदल सकते हैं और Out of Stock कर सकते हैं।</p>
+        
+        <div class="admin-grid">
+          <div class="admin-card">
+            <h3>➕ नई सब्ज़ी / फल जोड़ें</h3>
+            <input type="text" id="newName" class="admin-input" placeholder="नाम (जैसे: गाजर)">
+            <input type="number" id="newPrice" class="admin-input" placeholder="1 Kg की कीमत ₹ (जैसे: 40)">
+            <select id="newUnitType" class="admin-input">
+              <option value="weight">वजन (kg / g)</option>
+              <option value="piece">गिनती (piece / dozen / bundle)</option>
+            </select>
+            <select id="newCat" class="admin-input">
+              <option value="सब्ज़ियां">सब्ज़ियां</option>
+              <option value="फल">फल</option>
+              <option value="पत्तेदार">पत्तेदार</option>
+            </select>
+            <input type="text" id="newImg" class="admin-input" placeholder="फोटो URL (Image Link)">
+            <button class="btn btn-green" style="width:100%" onclick="addNewProduct()">Add Product</button>
+          </div>
+
+          <div class="admin-card" style="overflow-x: auto;">
+            <h3>📝 1kg/Unit रेट बदलें व स्टॉक सेट करें</h3>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>नाम</th>
+                  <th>1kg/Unit रेट (₹)</th>
+                  <th>स्टॉक</th>
+                  <th>हटाएं</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div><b>🥦 Gupta Brother Vegetable Shop & Fruits</b><br>Jaipur</div>
+    <div>©️ 2026 Gupta Brother. All rights reserved.</div>
+  </div>
+</footer>
+
+<a class="float-wa" href="https://wa.me/917850872572" target="_blank" aria-label="WhatsApp">✆</a>
+
+<!-- Cart Side Navigation -->
+<aside class="cart" id="cart">
+  <div class="cart-head">
+    <h2>🛒 Your Cart</h2>
+    <button class="close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="total"><span>Total</span><span>₹<span id="cartTotal">0</span></span></div>
+    <button class="btn btn-green" style="width:100%" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</aside>
+
+<!-- Checkout Modal -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
+    <button class="close" onclick="closeCheckout()">✕</button>
+    <h2>📦 Order Details</h2>
+    <p style="color:#68766e; margin-bottom:12px;">अपनी Details दर्ज करें (Delivery केवल Jaipur पर उपलब्ध है)।</p>
+    
+    <div class="warning-box" id="areaWarning">
+      ⚠️ <b>ध्यान दें:</b> हमारी डिलीवरी केवल <b>Jaipur</b> पर उपलब्ध है।
+    </div>
+
+    <div class="field">
+      <label>नाम *</label>
+      <input id="name" placeholder="आपका नाम लिखें">
+    </div>
+    <div class="field">
+      <label>Mobile Number *</label>
+      <input id="phone" inputmode="numeric" placeholder="10 digit मोबाइल नंबर">
+    </div>
+    <div class="field">
+      <label>Delivery Address (Jaipur) *</label>
+      <textarea id="address" placeholder="मकान नं, गली नं, Jaipur..." oninput="checkAddressArea()"></textarea>
+    </div>
+    <div class="field">
+      <label>Extra Note</label>
+      <textarea id="note" placeholder="जैसे: ताज़ी सब्ज़ी ही भेजना..."></textarea>
+    </div>
+    <button class="btn btn-green" style="width:100%" onclick="sendOrder()">📲 WhatsApp पर Order भेजें</button>
+  </div>
+</div>
+
+<!-- Thank You Screen Modal -->
+<div class="modal" id="thankyouModal">
+  <div class="modal-box thankyou-box">
+    <span class="thankyou-icon">❤️</span>
+    <h2>Thank You!</h2>
+    <p>आपका ऑर्डर तैयार हो चुका है और WhatsApp पर भेज दिया गया है।<br>“हमारे लिए आप सिर्फ एक ग्राहक नहीं, बल्कि हमारे सफर का एक अहम हिस्सा हैं।
+         ❤️ आपका भरोसा हमें हर दिन बेहतर सेवा देने और आगे बढ़ने की प्रेरणा देता है।
+          दिल से धन्यवाद 🙏✨”<br>
+        <b>Gupta Brother Shop</b> जल्द ही आपसे संपर्क करेगी।</p>
+    <button class="btn btn-green" onclick="closeThankYou()">OK / Continue Shopping</button>
+  </div>
+</div>
+
+<script>
+// Default Products List with weight vs piece type
+const defaultProducts = [
+  {name: "आलू (Potato)", basePrice: 30, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "टमाटर (Tomato)", basePrice: 40, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "प्याज़ (Onion)", basePrice: 35, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "भिंडी (Lady Finger)", basePrice: 50, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "पालक (Spinach)", basePrice: 25, unitType: "piece", unitLabel: "bundle", cat: "पत्तेदार", img: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "सेब (Apple)", basePrice: 140, unitType: "weight", cat: "फल", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "केला (Banana)", basePrice: 60, unitType: "piece", unitLabel: "dozen", cat: "फल", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=700&q=80", inStock: true},
+  {name: "संतरा (Orange)", basePrice: 90, unitType: "weight", cat: "फल", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=700&q=80", inStock: true}
+];
+
+let products = JSON.parse(localStorage.getItem('gupta_products_v2')) || defaultProducts;
+let cart = [];
+
+const grid = document.getElementById('productGrid');
+
+function saveAndRefresh() {
+  localStorage.setItem('gupta_products_v2', JSON.stringify(products));
+  renderProducts();
+  renderAdminTable();
+}
+
+// Weight multipliers relative to 1kg
+const weightOptions = [
+  { label: "250g (पाव)", factor: 0.25 },
+  { label: "500g (आधा किलो)", factor: 0.5 },
+  { label: "1 kg", factor: 1.0 },
+  { label: "1.5 kg", factor: 1.5 },
+  { label: "2 kg", factor: 2.0 },
+  { label: "3 kg", factor: 3.0 },
+  { label: "5 kg", factor: 5.0 }
+];
+
+function renderProducts(list = products) {
+  grid.innerHTML = list.map((p) => {
+    const originalIndex = products.indexOf(p);
+    const isAvailable = p.inStock !== false;
+
+    let qtySelectorHTML = '';
+    let currentPrice = p.basePrice;
+
+    if (p.unitType === 'weight') {
+      qtySelectorHTML = `
+        <select class="qty-selector" id="select-${originalIndex}" onchange="updateCardPrice(${originalIndex})">
+          ${weightOptions.map(opt => `<option value="${opt.factor}" ${opt.factor === 1 ? 'selected' : ''}>${opt.label}</option>`).join('')}
+        </select>
+      `;
+    } else {
+      qtySelectorHTML = `<div style="font-size:12px; color:var(--muted); margin: 8px 0;">इकाई: 1 ${p.unitLabel || 'piece'}</div>`;
+    }
+
+    return `
+      <div class="card ${isAvailable ? '' : 'out-of-stock'}">
+        ${!isAvailable ? '<span class="stock-badge">Not Available</span>' : ''}
+        <div class="product-img" style="background-image:url('${p.img}')"></div>
+        <div class="card-body">
+          <div>
+            <span class="tag">${p.cat}</span>
+            <h3>${p.name}</h3>
+            <div class="price">
+              ₹<span id="price-display-${originalIndex}">${currentPrice}</span> 
+              <span class="unit" id="unit-display-${originalIndex}">${p.unitType === 'weight' ? '/ 1 kg' : '/ ' + (p.unitLabel || 'piece')}</span>
+            </div>
+          </div>
+          <div>
+            ${qtySelectorHTML}
+            <button class="btn ${isAvailable ? 'btn-green' : 'btn-outline'} add" 
+                    onclick="addToCart(${originalIndex})" 
+                    ${isAvailable ? '' : 'disabled style="cursor:not-allowed; opacity:0.6;"'}>
+              ${isAvailable ? '+ Add to Cart' : 'Out of Stock'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateCardPrice(index) {
+  const p = products[index];
+  const select = document.getElementById(`select-${index}`);
+  const factor = parseFloat(select.value);
+  const calculatedPrice = Math.round(p.basePrice * factor);
+  
+  const selectedText = select.options[select.selectedIndex].text.split(' ')[0];
+  document.getElementById(`price-display-${index}`).textContent = calculatedPrice;
+  document.getElementById(`unit-display-${index}`).textContent = `/ ${selectedText}`;
+}
+
+function filterProducts(cat) {
+  renderProducts(cat === 'सब' ? products : products.filter(p => p.cat === cat));
+  document.getElementById('products').scrollIntoView({behavior: 'smooth'});
+}
+
+function addToCart(i) {
+  const p = products[i];
+  if (p.inStock === false) return;
+
+  let selectedQtyLabel = "1 kg";
+  let itemPrice = p.basePrice;
+
+  if (p.unitType === 'weight') {
+    const select = document.getElementById(`select-${i}`);
+    const factor = parseFloat(select.value);
+    itemPrice = Math.round(p.basePrice * factor);
+    selectedQtyLabel = select.options[select.selectedIndex].text.split(' ')[0];
+  } else {
+    selectedQtyLabel = `1 ${p.unitLabel || 'piece'}`;
+  }
+
+  const itemKey = `${p.name} (${selectedQtyLabel})`;
+  
+  const found = cart.find(x => x.cartKey === itemKey);
+  if (found) {
+    found.qty++;
+  } else {
+    cart.push({
+      cartKey: itemKey,
+      name: p.name,
+      portion: selectedQtyLabel,
+      price: itemPrice,
+      qty: 1
+    });
+  }
+
+  updateCart();
+  openCart();
+}
+
+function updateCart() {
+  document.getElementById('cartCount').textContent = cart.reduce((s, x) => s + x.qty, 0);
+  document.getElementById('cartItems').innerHTML = cart.length ? cart.map((x, i) => `
+    <div class="cart-item">
+      <div>
+        <b>${x.name}</b> <small style="color:var(--green); font-weight:bold;">[${x.portion}]</small><br>
+        <small>₹${x.price} per item</small>
+      </div>
+      <div class="qty">
+        <button onclick="changeQty(${i},-1)">−</button>
+        <b>${x.qty}</b>
+        <button onclick="changeQty(${i},1)">+</button>
+      </div>
+    </div>
+  `).join('') : '<p style="text-align:center;color:#68766e;margin-top:30px">Cart अभी खाली है।</p>';
+  
+  document.getElementById('cartTotal').textContent = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+}
+
+function changeQty(i, n) {
+  cart[i].qty += n;
+  if (cart[i].qty <= 0) cart.splice(i, 1);
+  updateCart();
+}
+
+function openCart() { document.getElementById('cart').classList.add('open'); }
+function closeCart() { document.getElementById('cart').classList.remove('open'); }
+
+function checkout() {
+  if (!cart.length) {
+    alert('कृपया पहले कोई product कार्ट में जोड़ें!');
+    return;
+  }
+  closeCart();
+  document.getElementById('checkoutModal').classList.add('show');
+}
+
+function closeCheckout() { document.getElementById('checkoutModal').classList.remove('show'); }
+
+function checkAddressArea() {
+  // Address warning logic removed
+  document.getElementById('areaWarning').style.display = 'none';
+}
+
+function sendOrder() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const note = document.getElementById('note').value.trim();
+
+  if (!name || !phone || !address) {
+    alert('कृपया Name, Mobile और Address पूरी तरह भरें।');
+    return;
+  }
+  if (!/^\d{10}$/.test(phone)) {
+    alert('कृपया सही 10 अंकों का Mobile Number भरें।');
+    return;
+  }
+
+  let lines = cart.map(x => `• ${x.name} (${x.portion}) × ${x.qty} = ₹${x.qty * x.price}`).join('\n');
+  let total = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+
+  let msg = `🛒 *NEW ORDER - Gupta Brother Shop*\n\n👤 *Customer:* ${name}\n📱 *Mobile:* ${phone}\n📍 *Address:* ${address}\n\n*Order Details:*\n${lines}\n\n💰 *TOTAL: ₹${total}*\n${note ? `📝 Note: ${note}\n` : ''}\nThank you!`;
+
+  window.open(`https://wa.me/917850872572?text=${encodeURIComponent(msg)}`, '_blank');
+
+  closeCheckout();
+  document.getElementById('thankyouModal').classList.add('show');
+}
+
+function closeThankYou() {
+  document.getElementById('thankyouModal').classList.remove('show');
+  cart = [];
+  updateCart();
+}
+
+/* 🔒 SECRET TRIPLE CLICK & PASSWORD SYSTEM FOR ADMIN PANEL */
+let adminClickCount = 0;
+let adminClickTimer = null;
+
+function handleAdminClick() {
+  adminClickCount++;
+  clearTimeout(adminClickTimer);
+  adminClickTimer = setTimeout(() => { adminClickCount = 0; }, 1000);
+
+  if (adminClickCount === 3) {
+    adminClickCount = 0;
+    openAdminWithPassword();
+  }
+}
+
+function openAdminWithPassword() {
+  const ADMIN_PASSWORD = "##radhe radhe";
+  let userPassword = prompt("🔐 Admin Password दर्ज करें:");
+
+  if (userPassword === ADMIN_PASSWORD) {
+    alert("✅ पासवर्ड सही है! एडमिन पैनल खुल रहा है।");
+    let adminSection = document.getElementById("admin");
+    adminSection.style.display = "block";
+    adminSection.scrollIntoView({ behavior: 'smooth' });
+  } else if (userPassword !== null) {
+    alert("❌ गलत पासवर्ड! आप एडमिन पैनल नहीं खोल सकते।");
+  }
+}
+
+/* ADMIN PANEL FUNCTIONS */
+function renderAdminTable() {
+  const tbody = document.getElementById('adminTableBody');
+  tbody.innerHTML = products.map((p, i) => `
+    <tr>
+      <td><b>${p.name}</b></td>
+      <td>
+        <input type="number" value="${p.basePrice}" onchange="updatePrice(${i}, this.value)">
+      </td>
+      <td>
+        <button class="btn ${p.inStock !== false ? 'btn-green' : 'btn-orange'}" 
+                style="padding:4px 8px; font-size:12px;" 
+                onclick="toggleStock(${i})">
+          ${p.inStock !== false ? 'In Stock' : 'Out of Stock'}
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-red" style="padding:4px 8px; font-size:12px;" onclick="deleteProduct(${i})">🗑️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function addNewProduct() {
+  const name = document.getElementById('newName').value.trim();
+  const price = parseFloat(document.getElementById('newPrice').value);
+  const unitType = document.getElementById('newUnitType').value;
+  const cat = document.getElementById('newCat').value;
+  const img = document.getElementById('newImg').value.trim() || 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=700&q=80';
+
+  if (!name || isNaN(price)) {
+    alert('कृपया नाम और सही कीमत भरें!');
+    return;
+  }
+
+  products.push({ name, basePrice: price, unitType, cat, img, inStock: true });
+  
+  document.getElementById('newName').value = '';
+  document.getElementById('newPrice').value = '';
+  document.getElementById('newImg').value = '';
+
+  saveAndRefresh();
+  alert('नई सब्ज़ी/फल सफलता से जोड़ दिया गया है!');
+}
+
+function updatePrice(index, newPrice) {
+  products[index].basePrice = parseFloat(newPrice) || 0;
+  saveAndRefresh();
+}
+
+function toggleStock(index) {
+  products[index].inStock = products[index].inStock === false ? true : false;
+  saveAndRefresh();
+}
+
+function deleteProduct(index) {
+  if (confirm(`क्या आप वाकई ${products[index].name} को हटाना चाहते हैं?`)) {
+    products.splice(index, 1);
+    saveAndRefresh();
+  }
+}
+
+// Initial Load
+renderProducts();
+updateCart();
+renderAdminTable();
+</script>
+</body>
+</html>
