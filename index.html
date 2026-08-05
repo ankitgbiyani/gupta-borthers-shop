@@ -73,11 +73,9 @@ section { padding: 60px 0; }
 .price { font-size: 18px; font-weight: 900; color: var(--dark); margin: 6px 0; }
 .unit { font-size: 12px; color: var(--muted); font-weight: 500; }
 
-/* Quantity Selector Dropdown */
 .qty-selector { width: 100%; padding: 8px 10px; margin: 8px 0 12px; border: 1px solid #cce0d4; border-radius: 8px; font-weight: 700; color: var(--dark); background: #fdfdfd; cursor: pointer; outline: none; }
 .add { width: 100%; }
 
-/* Out of Stock styling */
 .card.out-of-stock { opacity: 0.65; }
 .card.out-of-stock .product-img { filter: grayscale(100%); }
 .stock-badge { position: absolute; top: 12px; right: 12px; background: rgba(220, 38, 38, 0.9); color: white; padding: 4px 10px; font-size: 11px; font-weight: 800; border-radius: 20px; }
@@ -107,7 +105,7 @@ section { padding: 60px 0; }
 .contact-row:last-child { border: 0; }
 .contact-row b { display: block; color: var(--dark); }
 
-/* Admin Section Styles */
+/* Admin Section */
 .admin-section { background: #111827; color: #fff; padding: 50px 0; border-radius: 30px; margin: 40px auto; }
 .admin-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; margin-top: 20px; }
 .admin-card { background: #1f2937; padding: 20px; border-radius: 18px; border: 1px solid #374151; }
@@ -121,7 +119,6 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
 .footer-grid { display: flex; justify-content: space-between; gap: 20px; }
 .float-wa { position: fixed; right: 18px; bottom: 18px; z-index: 30; background: #25d366; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 27px; box-shadow: 0 8px 25px rgba(0, 0, 0, .2); }
 
-/* Cart & Modals */
 .cart { position: fixed; right: 0; top: 0; height: 100%; width: min(410px, 100%); background: #fff; z-index: 50; box-shadow: -10px 0 35px rgba(0, 0, 0, .15); transform: translateX(100%); transition: .3s; display: flex; flex-direction: column; }
 .cart.open { transform: none; }
 .cart-head { padding: 20px; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
@@ -397,10 +394,6 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
     <h2>📦 Order Details</h2>
     <p style="color:#68766e; margin-bottom:12px;">अपनी Details दर्ज करें (Delivery केवल Jaipur पर उपलब्ध है)।</p>
     
-    <div class="warning-box" id="areaWarning">
-      ⚠️ <b>ध्यान दें:</b> हमारी डिलीवरी केवल <b>Jaipur</b> पर उपलब्ध है।
-    </div>
-
     <div class="field">
       <label>नाम *</label>
       <input id="name" placeholder="आपका नाम लिखें">
@@ -411,7 +404,7 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
     </div>
     <div class="field">
       <label>Delivery Address (Jaipur) *</label>
-      <textarea id="address" placeholder="मकान नं, गली नं, Jaipur..." oninput="checkAddressArea()"></textarea>
+      <textarea id="address" placeholder="मकान नं, गली नं, Jaipur..."></textarea>
     </div>
     <div class="field">
       <label>Extra Note</label>
@@ -421,44 +414,42 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
   </div>
 </div>
 
-<!-- Thank You Screen Modal -->
+<!-- Thank You Modal -->
 <div class="modal" id="thankyouModal">
   <div class="modal-box thankyou-box">
     <span class="thankyou-icon">❤️</span>
     <h2>Thank You!</h2>
-    <p>आपका ऑर्डर तैयार हो चुका है और WhatsApp पर भेज दिया गया है।<br>“हमारे लिए आप सिर्फ एक ग्राहक नहीं, बल्कि हमारे सफर का एक अहम हिस्सा हैं।
-         ❤️ आपका भरोसा हमें हर दिन बेहतर सेवा देने और आगे बढ़ने की प्रेरणा देता है।
-          दिल से धन्यवाद 🙏✨”<br>
-        <b>Gupta Brother Shop</b> जल्द ही आपसे संपर्क करेगी।</p>
+    <p>आपका ऑर्डर तैयार हो चुका है और WhatsApp पर भेज दिया गया है।<br>“हमारे लिए आप सिर्फ एक ग्राहक नहीं, बल्कि हमारे सफर का एक अहम हिस्सा हैं। ❤️ आपका भरोसा हमें हर दिन बेहतर सेवा देने और आगे बढ़ने की प्रेरणा देता है। दिल से धन्यवाद 🙏✨”<br>
+    <b>Gupta Brother Shop</b> जल्द ही आपसे संपर्क करेगी।</p>
     <button class="btn btn-green" onclick="closeThankYou()">OK / Continue Shopping</button>
   </div>
 </div>
 
-<script>
-// Default Products List with weight vs piece type
-const defaultProducts = [
-  {name: "आलू (Potato)", basePrice: 30, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "टमाटर (Tomato)", basePrice: 40, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "प्याज़ (Onion)", basePrice: 35, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1508747703725-719777637510?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "भिंडी (Lady Finger)", basePrice: 50, unitType: "weight", cat: "सब्ज़ियां", img: "https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "पालक (Spinach)", basePrice: 25, unitType: "piece", unitLabel: "bundle", cat: "पत्तेदार", img: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "सेब (Apple)", basePrice: 140, unitType: "weight", cat: "फल", img: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "केला (Banana)", basePrice: 60, unitType: "piece", unitLabel: "dozen", cat: "फल", img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=700&q=80", inStock: true},
-  {name: "संतरा (Orange)", basePrice: 90, unitType: "weight", cat: "फल", img: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=700&q=80", inStock: true}
-];
+<!-- FIREBASE REALTIME LIBRARIES -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-let products = JSON.parse(localStorage.getItem('gupta_products_v2')) || defaultProducts;
+<script>
+// AAPKA FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyDPQzCWxeHLfE4BJ8TW60rhtnqN3R7JImk",
+  authDomain: "vegetables-shop-4417c.firebaseapp.com",
+  databaseURL: "https://vegetables-shop-4417c-default-rtdb.firebaseio.com",
+  projectId: "vegetables-shop-4417c",
+  storageBucket: "vegetables-shop-4417c.firebasestorage.app",
+  messagingSenderId: "1065175751688",
+  appId: "1:1065175751688:web:64ed6b52db0e3d583385bd",
+  measurementId: "G-8ERD43N54H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let products = [];
 let cart = [];
 
 const grid = document.getElementById('productGrid');
 
-function saveAndRefresh() {
-  localStorage.setItem('gupta_products_v2', JSON.stringify(products));
-  renderProducts();
-  renderAdminTable();
-}
-
-// Weight multipliers relative to 1kg
 const weightOptions = [
   { label: "250g (पाव)", factor: 0.25 },
   { label: "500g (आधा किलो)", factor: 0.5 },
@@ -469,17 +460,30 @@ const weightOptions = [
   { label: "5 kg", factor: 5.0 }
 ];
 
-function renderProducts(list = products) {
-  grid.innerHTML = list.map((p) => {
-    const originalIndex = products.indexOf(p);
-    const isAvailable = p.inStock !== false;
+// REALTIME DATABASE LISTENER (Sabhi phone me Bina Reload Ke Update Karega)
+db.ref('products').on('value', (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    products = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+  } else {
+    products = [];
+  }
+  renderProducts();
+  renderAdminTable();
+});
 
+function renderProducts(list = products) {
+  if (!list.length) {
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">अभी कोई product ऐड नहीं है। Admin Panel से Add करें।</p>';
+    return;
+  }
+  grid.innerHTML = list.map((p, i) => {
+    const isAvailable = p.inStock !== false;
     let qtySelectorHTML = '';
-    let currentPrice = p.basePrice;
 
     if (p.unitType === 'weight') {
       qtySelectorHTML = `
-        <select class="qty-selector" id="select-${originalIndex}" onchange="updateCardPrice(${originalIndex})">
+        <select class="qty-selector" id="select-${i}" onchange="updateCardPrice(${i})">
           ${weightOptions.map(opt => `<option value="${opt.factor}" ${opt.factor === 1 ? 'selected' : ''}>${opt.label}</option>`).join('')}
         </select>
       `;
@@ -496,15 +500,13 @@ function renderProducts(list = products) {
             <span class="tag">${p.cat}</span>
             <h3>${p.name}</h3>
             <div class="price">
-              ₹<span id="price-display-${originalIndex}">${currentPrice}</span> 
-              <span class="unit" id="unit-display-${originalIndex}">${p.unitType === 'weight' ? '/ 1 kg' : '/ ' + (p.unitLabel || 'piece')}</span>
+              ₹<span id="price-display-${i}">${p.basePrice}</span> 
+              <span class="unit" id="unit-display-${i}">${p.unitType === 'weight' ? '/ 1 kg' : '/ ' + (p.unitLabel || 'piece')}</span>
             </div>
           </div>
           <div>
             ${qtySelectorHTML}
-            <button class="btn ${isAvailable ? 'btn-green' : 'btn-outline'} add" 
-                    onclick="addToCart(${originalIndex})" 
-                    ${isAvailable ? '' : 'disabled style="cursor:not-allowed; opacity:0.6;"'}>
+            <button class="btn ${isAvailable ? 'btn-green' : 'btn-outline'} add" onclick="addToCart(${i})" ${isAvailable ? '' : 'disabled'}>
               ${isAvailable ? '+ Add to Cart' : 'Out of Stock'}
             </button>
           </div>
@@ -519,7 +521,6 @@ function updateCardPrice(index) {
   const select = document.getElementById(`select-${index}`);
   const factor = parseFloat(select.value);
   const calculatedPrice = Math.round(p.basePrice * factor);
-  
   const selectedText = select.options[select.selectedIndex].text.split(' ')[0];
   document.getElementById(`price-display-${index}`).textContent = calculatedPrice;
   document.getElementById(`unit-display-${index}`).textContent = `/ ${selectedText}`;
@@ -547,18 +548,11 @@ function addToCart(i) {
   }
 
   const itemKey = `${p.name} (${selectedQtyLabel})`;
-  
   const found = cart.find(x => x.cartKey === itemKey);
   if (found) {
     found.qty++;
   } else {
-    cart.push({
-      cartKey: itemKey,
-      name: p.name,
-      portion: selectedQtyLabel,
-      price: itemPrice,
-      qty: 1
-    });
+    cart.push({ cartKey: itemKey, name: p.name, portion: selectedQtyLabel, price: itemPrice, qty: 1 });
   }
 
   updateCart();
@@ -604,11 +598,6 @@ function checkout() {
 
 function closeCheckout() { document.getElementById('checkoutModal').classList.remove('show'); }
 
-function checkAddressArea() {
-  // Address warning logic removed
-  document.getElementById('areaWarning').style.display = 'none';
-}
-
 function sendOrder() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
@@ -641,58 +630,7 @@ function closeThankYou() {
   updateCart();
 }
 
-/* 🔒 SECRET TRIPLE CLICK & PASSWORD SYSTEM FOR ADMIN PANEL */
-let adminClickCount = 0;
-let adminClickTimer = null;
-
-function handleAdminClick() {
-  adminClickCount++;
-  clearTimeout(adminClickTimer);
-  adminClickTimer = setTimeout(() => { adminClickCount = 0; }, 1000);
-
-  if (adminClickCount === 3) {
-    adminClickCount = 0;
-    openAdminWithPassword();
-  }
-}
-
-function openAdminWithPassword() {
-  const ADMIN_PASSWORD = "##radhe radhe";
-  let userPassword = prompt("🔐 Admin Password दर्ज करें:");
-
-  if (userPassword === ADMIN_PASSWORD) {
-    alert("✅ पासवर्ड सही है! एडमिन पैनल खुल रहा है।");
-    let adminSection = document.getElementById("admin");
-    adminSection.style.display = "block";
-    adminSection.scrollIntoView({ behavior: 'smooth' });
-  } else if (userPassword !== null) {
-    alert("❌ गलत पासवर्ड! आप एडमिन पैनल नहीं खोल सकते।");
-  }
-}
-
-/* ADMIN PANEL FUNCTIONS */
-function renderAdminTable() {
-  const tbody = document.getElementById('adminTableBody');
-  tbody.innerHTML = products.map((p, i) => `
-    <tr>
-      <td><b>${p.name}</b></td>
-      <td>
-        <input type="number" value="${p.basePrice}" onchange="updatePrice(${i}, this.value)">
-      </td>
-      <td>
-        <button class="btn ${p.inStock !== false ? 'btn-green' : 'btn-orange'}" 
-                style="padding:4px 8px; font-size:12px;" 
-                onclick="toggleStock(${i})">
-          ${p.inStock !== false ? 'In Stock' : 'Out of Stock'}
-        </button>
-      </td>
-      <td>
-        <button class="btn btn-red" style="padding:4px 8px; font-size:12px;" onclick="deleteProduct(${i})">🗑️</button>
-      </td>
-    </tr>
-  `).join('');
-}
-
+/* ADMIN REALTIME FUNCTIONS */
 function addNewProduct() {
   const name = document.getElementById('newName').value.trim();
   const price = parseFloat(document.getElementById('newPrice').value);
@@ -705,37 +643,68 @@ function addNewProduct() {
     return;
   }
 
-  products.push({ name, basePrice: price, unitType, cat, img, inStock: true });
-  
+  db.ref('products').push({ name, basePrice: price, unitType, cat, img, inStock: true });
+
   document.getElementById('newName').value = '';
   document.getElementById('newPrice').value = '';
   document.getElementById('newImg').value = '';
-
-  saveAndRefresh();
-  alert('नई सब्ज़ी/फल सफलता से जोड़ दिया गया है!');
+  alert('सब्ज़ी सफलता से जोड़ दी गई है! यह सभी phones में तुरंत दिखाई देगी।');
 }
 
 function updatePrice(index, newPrice) {
-  products[index].basePrice = parseFloat(newPrice) || 0;
-  saveAndRefresh();
+  const p = products[index];
+  db.ref('products/' + p.id).update({ basePrice: parseFloat(newPrice) || 0 });
 }
 
 function toggleStock(index) {
-  products[index].inStock = products[index].inStock === false ? true : false;
-  saveAndRefresh();
+  const p = products[index];
+  db.ref('products/' + p.id).update({ inStock: p.inStock === false ? true : false });
 }
 
 function deleteProduct(index) {
-  if (confirm(`क्या आप वाकई ${products[index].name} को हटाना चाहते हैं?`)) {
-    products.splice(index, 1);
-    saveAndRefresh();
+  const p = products[index];
+  if (confirm(`क्या आप ${p.name} को हटाना चाहते हैं?`)) {
+    db.ref('products/' + p.id).remove();
   }
 }
 
-// Initial Load
-renderProducts();
-updateCart();
-renderAdminTable();
+function renderAdminTable() {
+  const tbody = document.getElementById('adminTableBody');
+  tbody.innerHTML = products.map((p, i) => `
+    <tr>
+      <td><b>${p.name}</b></td>
+      <td><input type="number" value="${p.basePrice}" onchange="updatePrice(${i}, this.value)"></td>
+      <td>
+        <button class="btn ${p.inStock !== false ? 'btn-green' : 'btn-orange'}" style="padding:4px 8px; font-size:12px;" onclick="toggleStock(${i})">
+          ${p.inStock !== false ? 'In Stock' : 'Out of Stock'}
+        </button>
+      </td>
+      <td><button class="btn btn-red" style="padding:4px 8px; font-size:12px;" onclick="deleteProduct(${i})">🗑️</button></td>
+    </tr>
+  `).join('');
+}
+
+/* ADMIN PANEL LOGIN (TRIPLE CLICK) */
+let adminClickCount = 0;
+let adminClickTimer = null;
+function handleAdminClick() {
+  adminClickCount++;
+  clearTimeout(adminClickTimer);
+  adminClickTimer = setTimeout(() => { adminClickCount = 0; }, 1000);
+  if (adminClickCount === 3) {
+    adminClickCount = 0;
+    openAdminWithPassword();
+  }
+}
+function openAdminWithPassword() {
+  if (prompt("🔐 Admin Password दर्ज करें:") === "##radhe radhe") {
+    alert("✅ पासवर्ड सही है!");
+    document.getElementById("admin").style.display = "block";
+    document.getElementById("admin").scrollIntoView({ behavior: 'smooth' });
+  } else {
+    alert("❌ गलत पासवर्ड!");
+  }
+}
 </script>
 </body>
 </html>
