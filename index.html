@@ -42,6 +42,10 @@ nav a:hover { color: var(--green); }
 .btn-red { background: var(--red); color: white; }
 .btn-outline { border: 1px solid #d7e2db; background: #fff; color: var(--green); }
 
+/* Search Bar */
+.search-container { max-width: 500px; margin: 0 auto 25px; position: relative; }
+.search-input { width: 100%; padding: 14px 20px; border-radius: 30px; border: 2px solid var(--green); font-size: 15px; outline: none; box-shadow: 0 4px 15px rgba(22, 138, 69, 0.1); }
+
 /* Hero */
 .hero { background: linear-gradient(120deg, #effaf2, #fff8e9); padding: 60px 0; }
 .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
@@ -66,7 +70,7 @@ section { padding: 60px 0; }
 .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .card { background: #fff; border: 1px solid #e6eee9; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 22px rgba(18, 60, 33, .06); transition: .2s; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.product-img { height: 160px; background-size: cover; background-position: center; }
+.product-img { height: 160px; background-size: cover; background-position: center; position: relative; }
 .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
 .tag { font-size: 11px; color: var(--green); font-weight: 800; }
 .card h3 { margin: 4px 0; font-size: 18px; }
@@ -79,6 +83,7 @@ section { padding: 60px 0; }
 .card.out-of-stock { opacity: 0.65; }
 .card.out-of-stock .product-img { filter: grayscale(100%); }
 .stock-badge { position: absolute; top: 12px; right: 12px; background: rgba(220, 38, 38, 0.9); color: white; padding: 4px 10px; font-size: 11px; font-weight: 800; border-radius: 20px; }
+.feature-badge { position: absolute; top: 12px; left: 12px; background: var(--orange); color: #103b27; padding: 4px 10px; font-size: 10px; font-weight: 800; border-radius: 20px; text-transform: uppercase; }
 
 .offer { background: linear-gradient(120deg, var(--dark), #1d6b42); color: #fff; border-radius: 28px; padding: 35px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .offer h2 { font-size: 30px; }
@@ -127,7 +132,10 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
 .qty { display: flex; gap: 7px; align-items: center; }
 .qty button { border: 1px solid #ddd; background: white; border-radius: 7px; width: 28px; height: 28px; cursor: pointer; }
 .cart-foot { padding: 18px; border-top: 1px solid #eee; }
-.total { display: flex; justify-content: space-between; font-size: 21px; font-weight: 900; margin-bottom: 14px; }
+.total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+
+/* Progress bar */
+.delivery-notice { background: #e8f5e9; padding: 10px; border-radius: 10px; margin-bottom: 12px; font-size: 13px; font-weight: bold; text-align: center; }
 
 .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .6); z-index: 60; display: none; align-items: center; justify-content: center; padding: 18px; }
 .modal.show { display: flex; }
@@ -135,10 +143,8 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
 .close { float: right; border: 0; background: #eee; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; }
 .field { margin: 12px 0; }
 .field label { font-size: 13px; font-weight: 800; display: block; margin-bottom: 5px; }
-.field input, .field textarea { width: 100%; padding: 12px; border: 1px solid #d8e3dc; border-radius: 10px; font: inherit; }
+.field input, .field textarea, .field select { width: 100%; padding: 12px; border: 1px solid #d8e3dc; border-radius: 10px; font: inherit; }
 .field textarea { min-height: 70px; resize: vertical; }
-
-.warning-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; border: 1px solid #ffeeba; font-size: 13px; margin-bottom: 10px; display: none; }
 
 .thankyou-box { text-align: center; padding: 20px 10px; }
 .thankyou-box h2 { font-size: 28px; color: var(--green); margin-bottom: 10px; }
@@ -216,8 +222,14 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
     <div class="container">
       <div class="section-head">
         <h2>हमारी Categories</h2>
-        <p>अपनी पसंद की category चुनें</p>
+        <p>अपनी पसंद की category या Search bar से dhoondhein</p>
       </div>
+
+      <!-- SEARCH BAR INTEGRATED -->
+      <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="🔍 Sabzi ya Phal dhoondhein (e.g. Aloo, Apple)..." class="search-input">
+      </div>
+
       <div class="categories">
         <div class="cat" onclick="filterProducts('सब्ज़ियां')"><b>🥦</b>सब्ज़ियां</div>
         <div class="cat" onclick="filterProducts('फल')"><b>🍎</b>फल</div>
@@ -242,7 +254,7 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
       <div class="offer">
         <div>
           <h2>🎉 Jaipur Special Offer</h2>
-          <p>₹399 या उससे अधिक के order पर <strong>FREE HOME DELIVERY</strong></p>
+          <p>₹399 या उससे अधिक के order पर <strong>FREE HOME DELIVERY</strong><br>Use Code <strong>WELCOME50</strong> to get ₹50 OFF!</p>
         </div>
         <a class="btn btn-orange" href="#products">Offer का फायदा लें</a>
       </div>
@@ -382,10 +394,30 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
-    <div class="total"><span>Total</span><span>₹<span id="cartTotal">0</span></span></div>
-    <button class="btn btn-green" style="width:100%" onclick="checkout()">Proceed to Checkout</button>
+    <div id="freeDeliveryNotice" class="delivery-notice"></div>
+    
+    <div class="total"><span>Subtotal</span><span>₹<span id="cartSubtotal">0</span></span></div>
+    <div class="total" id="discountRow" style="display:none; color:var(--green);"><span>Discount</span><span>-₹<span id="discountVal">0</span></span></div>
+    <div class="total" style="font-size:20px; font-weight:900;"><span>Total Amount</span><span>₹<span id="cartTotal">0</span></span></div>
+    
+    <button class="btn btn-green" style="width:100%; margin-top:8px;" onclick="checkout()">Proceed to Checkout</button>
   </div>
 </aside>
+
+<!-- FREE DELIVERY CELEBRATION POPUP MODAL -->
+<div class="modal" id="freeDeliveryModal">
+  <div class="modal-box thankyou-box" style="border: 3px solid var(--green);">
+    <span class="thankyou-icon">🎉🚚</span>
+    <h2 style="color:var(--green); font-size:28px;">Mubarak Ho!</h2>
+    <p style="font-size:18px; color:var(--dark); font-weight:bold; margin:15px 0;">
+      Aapka order <span style="color:var(--green);">₹399</span> se upar ho gaya hai!
+    </p>
+    <div style="background:#e8f5e9; padding:15px; border-radius:12px; margin-bottom:20px; color:var(--dark); font-weight:bold;">
+      🎁 Aapko mil gayi hai <span style="color:var(--green); text-transform:uppercase;">FREE Home Delivery</span>!
+    </div>
+    <button class="btn btn-green" style="width:100%; font-size:16px;" onclick="closeFreeDeliveryModal()">Shopping Jari Rakhein 🛒</button>
+  </div>
+</div>
 
 <!-- Checkout Modal -->
 <div class="modal" id="checkoutModal">
@@ -406,6 +438,27 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
       <label>Delivery Address (Jaipur) *</label>
       <textarea id="address" placeholder="मकान नं, गली नं, Jaipur..."></textarea>
     </div>
+
+    <!-- DELIVERY TIME SLOT INTEGRATED -->
+    <div class="field">
+      <label>Delivery Time Slot *</label>
+      <select id="deliverySlot">
+        <option value="Jitna jaldi ho sake (30-60 min)">⚡ Jitna jaldi ho sake (30-60 min)</option>
+        <option value="Morning Slot (8 AM - 11 AM)">🌅 Morning (8 AM - 11 AM)</option>
+        <option value="Evening Slot (5 PM - 8 PM)">🌆 Evening (5 PM - 8 PM)</option>
+      </select>
+    </div>
+
+    <!-- COUPON CODE INTEGRATED -->
+    <div class="field">
+      <label>Coupon Code (Optional)</label>
+      <div style="display:flex; gap:10px;">
+        <input id="couponInput" placeholder="Try WELCOME50" style="text-transform:uppercase;">
+        <button type="button" class="btn btn-orange" onclick="applyCoupon()" style="padding:0 15px;">Apply</button>
+      </div>
+      <small id="couponMsg" style="font-weight:bold; margin-top:4px; display:block;"></small>
+    </div>
+
     <div class="field">
       <label>Extra Note</label>
       <textarea id="note" placeholder="जैसे: ताज़ी सब्ज़ी ही भेजना..."></textarea>
@@ -430,7 +483,7 @@ footer { background: #0c2c1d; color: #d8e9df; padding: 35px 0; margin-top: 20px;
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-// AAPKA FIREBASE CONFIG
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyDPQzCWxeHLfE4BJ8TW60rhtnqN3R7JImk",
   authDomain: "vegetables-shop-4417c.firebaseapp.com",
@@ -447,6 +500,9 @@ const db = firebase.database();
 
 let products = [];
 let cart = [];
+let discountAmount = 0;
+let appliedCouponCode = "";
+let hasShownFreeDeliveryPopup = false; // Popup flag
 
 const grid = document.getElementById('productGrid');
 
@@ -460,7 +516,7 @@ const weightOptions = [
   { label: "5 kg", factor: 5.0 }
 ];
 
-// REALTIME DATABASE LISTENER (Sabhi phone me Bina Reload Ke Update Karega)
+// REALTIME DATABASE LISTENER
 db.ref('products').on('value', (snapshot) => {
   const data = snapshot.val();
   if (data) {
@@ -472,9 +528,16 @@ db.ref('products').on('value', (snapshot) => {
   renderAdminTable();
 });
 
+// SEARCH PRODUCTS FUNCTION
+function searchProducts() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(query) || p.cat.toLowerCase().includes(query));
+  renderProducts(filtered);
+}
+
 function renderProducts(list = products) {
   if (!list.length) {
-    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">अभी कोई product ऐड नहीं है। Admin Panel से Add करें।</p>';
+    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">अभी कोई product उपलब्ध नहीं है।</p>';
     return;
   }
   grid.innerHTML = list.map((p, i) => {
@@ -493,6 +556,7 @@ function renderProducts(list = products) {
 
     return `
       <div class="card ${isAvailable ? '' : 'out-of-stock'}">
+        <span class="feature-badge">🌱 Fresh</span>
         ${!isAvailable ? '<span class="stock-badge">Not Available</span>' : ''}
         <div class="product-img" style="background-image:url('${p.img}')"></div>
         <div class="card-body">
@@ -575,7 +639,59 @@ function updateCart() {
     </div>
   `).join('') : '<p style="text-align:center;color:#68766e;margin-top:30px">Cart अभी खाली है।</p>';
   
-  document.getElementById('cartTotal').textContent = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+  const subTotal = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+  const finalTotal = Math.max(0, subTotal - discountAmount);
+
+  document.getElementById('cartSubtotal').textContent = subTotal;
+  document.getElementById('cartTotal').textContent = finalTotal;
+
+  // FREE DELIVERY PROGRESS BAR & POPUP LOGIC
+  const notice = document.getElementById('freeDeliveryNotice');
+  if (subTotal >= 399) {
+    notice.innerHTML = "🎉 Mubarak Ho! Aapko **FREE Home Delivery** Milegi!";
+    notice.style.color = "var(--green)";
+    notice.style.background = "#e8f5e9";
+
+    // TRIGGER POPUP MODAL
+    if (!hasShownFreeDeliveryPopup) {
+      hasShownFreeDeliveryPopup = true;
+      document.getElementById('freeDeliveryModal').classList.add('show');
+    }
+  } else {
+    hasShownFreeDeliveryPopup = false; // Reset if below 399
+    const diff = 399 - subTotal;
+    notice.innerHTML = `🚚 ₹${diff} ka saamaan aur add karein aur **FREE Delivery** payein!`;
+    notice.style.color = "#b45309";
+    notice.style.background = "#fef3c7";
+  }
+}
+
+function closeFreeDeliveryModal() {
+  document.getElementById('freeDeliveryModal').classList.remove('show');
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  const msg = document.getElementById('couponMsg');
+  const subTotal = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+
+  if (code === 'WELCOME50') {
+    if (subTotal < 200) {
+      msg.textContent = '❌ Minimum ₹200 ka order hona chahiye is coupon ke liye!';
+      msg.style.color = 'var(--red)';
+      return;
+    }
+    discountAmount = 50;
+    appliedCouponCode = 'WELCOME50';
+    msg.textContent = '✅ ₹50 ka Discount Apply ho gaya hai!';
+    msg.style.color = 'var(--green)';
+    document.getElementById('discountRow').style.display = 'flex';
+    document.getElementById('discountVal').textContent = '50';
+    updateCart();
+  } else {
+    msg.textContent = '❌ Galat Coupon Code!';
+    msg.style.color = 'var(--red)';
+  }
 }
 
 function changeQty(i, n) {
@@ -593,6 +709,12 @@ function checkout() {
     return;
   }
   closeCart();
+  
+  // AUTO-LOAD SAVED CUSTOMER DETAILS
+  document.getElementById('name').value = localStorage.getItem('gb_cust_name') || '';
+  document.getElementById('phone').value = localStorage.getItem('gb_cust_phone') || '';
+  document.getElementById('address').value = localStorage.getItem('gb_cust_address') || '';
+
   document.getElementById('checkoutModal').classList.add('show');
 }
 
@@ -602,6 +724,7 @@ function sendOrder() {
   const name = document.getElementById('name').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const address = document.getElementById('address').value.trim();
+  const slot = document.getElementById('deliverySlot').value;
   const note = document.getElementById('note').value.trim();
 
   if (!name || !phone || !address) {
@@ -613,10 +736,16 @@ function sendOrder() {
     return;
   }
 
-  let lines = cart.map(x => `• ${x.name} (${x.portion}) × ${x.qty} = ₹${x.qty * x.price}`).join('\n');
-  let total = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+  // AUTO-SAVE CUSTOMER DETAILS
+  localStorage.setItem('gb_cust_name', name);
+  localStorage.setItem('gb_cust_phone', phone);
+  localStorage.setItem('gb_cust_address', address);
 
-  let msg = `🛒 *NEW ORDER - Gupta Brother Shop*\n\n👤 *Customer:* ${name}\n📱 *Mobile:* ${phone}\n📍 *Address:* ${address}\n\n*Order Details:*\n${lines}\n\n💰 *TOTAL: ₹${total}*\n${note ? `📝 Note: ${note}\n` : ''}\nThank you!`;
+  let lines = cart.map(x => `• ${x.name} (${x.portion}) × ${x.qty} = ₹${x.qty * x.price}`).join('\n');
+  let subTotal = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+  let total = Math.max(0, subTotal - discountAmount);
+
+  let msg = `🛒 *NEW ORDER - Gupta Brother Shop*\n\n👤 *Customer:* ${name}\n📱 *Mobile:* ${phone}\n📍 *Address:* ${address}\n⏰ *Slot:* ${slot}\n\n*Order Details:*\n${lines}\n\n💵 *Subtotal:* ₹${subTotal}${discountAmount ? `\n🏷️ *Coupon (${appliedCouponCode}):* -₹${discountAmount}` : ''}\n💰 *TOTAL BILL: ₹${total}*\n${note ? `📝 Note: ${note}\n` : ''}\nThank you!`;
 
   window.open(`https://wa.me/917850872572?text=${encodeURIComponent(msg)}`, '_blank');
 
@@ -627,6 +756,9 @@ function sendOrder() {
 function closeThankYou() {
   document.getElementById('thankyouModal').classList.remove('show');
   cart = [];
+  discountAmount = 0;
+  appliedCouponCode = "";
+  document.getElementById('discountRow').style.display = 'none';
   updateCart();
 }
 
